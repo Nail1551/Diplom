@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Diplom.Views.MainPageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Diplom.Views" xmlns:viewmodels="clr-namespace:Diplom.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:MainPageViewModel}"
+             mc:Ignorable="d" 
+                     d:DesignHeight="830" d:DesignWidth="1500">
+    <Border Background="#272B2F" CornerRadius="10">
+        <Grid>
+            <!-- Grid -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="37*"/>
+                <RowDefinition  Height="709*"  />
+                <RowDefinition Height="68*"/>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="209*"/>
+                <ColumnDefinition Width="1148*"/>
+                <ColumnDefinition Width="143*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <!-- Заливка основного окна -->
+            <Border Background="#FFE25127" CornerRadius="10,0,0,10" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" />
+
+
+
+            <!-- Окно навигации -->
+
+            <Grid x:Name="NavBar" Margin="0,37,0,0" Grid.RowSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+            </Grid>
+            <Grid x:Name="Dwn" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="34,3,0,0"/>
+            <ContentControl Content="{Binding CurrentFrame}" Grid.Column="1" Margin="10,10,10,10" Grid.Row="1" />
+        </Grid>
+    </Border>
+</UserControl>
