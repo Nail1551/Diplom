@@ -40,6 +40,8 @@ namespace Diplom.Models
             return cars;
         }
 
+      
+
         public string clearStatus() => null;
 
 

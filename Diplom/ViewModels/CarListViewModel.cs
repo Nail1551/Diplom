@@ -123,6 +123,23 @@ namespace Diplom.ViewModels
             }
         }
 
+        public void FilterAct()
+        {
+
+            Acts.Clear();
+            if (CurrentCar != null)
+            {
+
+                int selectedCarId = Convert.ToInt32(CurrentCar.CarID);
+                var filteredActs = Acts.Where(act => act.CarID == selectedCarId);
+                if (filteredActs.Any())
+                {
+                    Acts = new ObservableCollection<TransferClass>(filteredActs);
+                }
+            }
+
+        }
+
         private void clearFilters(object obj)
         {
             CurrentStatus = _carlistmodel.clearStatus();
