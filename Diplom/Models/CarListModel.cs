@@ -40,7 +40,13 @@ namespace Diplom.Models
             return cars;
         }
 
-      
+        public List<TransferClass> changeActByCar(int ID)
+        {
+            List<TransferClass> transfers = DbManager.getTransfers();
+           transfers = transfers.Where(ch => ch.CarID == ID).ToList();
+            return transfers;
+        }
+
 
         public string clearStatus() => null;
 

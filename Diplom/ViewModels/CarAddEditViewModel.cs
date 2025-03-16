@@ -89,8 +89,9 @@ namespace Diplom.ViewModels
         }
 
 
-        public ICommand goBackCommand { get; set; }
+        public ICommand CloseCommand { get; set; }
         public ICommand confirmCommand { get; set; }
+        
 
         #endregion
         public CarAddEditViewModel(Navigation navigation,CarClass car) 
@@ -110,7 +111,7 @@ namespace Diplom.ViewModels
                 Mileage = car.Mileage;
                 CarStatus = car.CarStatus;
             }
-            goBackCommand = new RelayCommand(goBack);
+            CloseCommand = new RelayCommand(goBack);
             confirmCommand = new RelayCommand(confirm);
 
         }

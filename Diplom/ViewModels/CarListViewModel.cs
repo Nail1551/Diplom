@@ -66,7 +66,7 @@ namespace Diplom.ViewModels
         public CarClass CurrentCar
         {
             get {return _currentCar; }
-            set { _currentCar = value; OnPropertyChanged(); }
+            set { _currentCar = value; OnPropertyChanged(); FilterAct(); }
         }
 
         #region Commands
@@ -125,18 +125,13 @@ namespace Diplom.ViewModels
 
         public void FilterAct()
         {
-
-            Acts.Clear();
-            if (CurrentCar != null)
+            var acts = _carlistmodel.changeActByCar(CurrentCar.CarID);
+            Acts = new ObservableCollection<TransferClass>();
+            foreach (var act in acts)
             {
-
-                int selectedCarId = Convert.ToInt32(CurrentCar.CarID);
-                var filteredActs = Acts.Where(act => act.CarID == selectedCarId);
-                if (filteredActs.Any())
-                {
-                    Acts = new ObservableCollection<TransferClass>(filteredActs);
-                }
+                Acts.Add(act);
             }
+
 
         }
 
