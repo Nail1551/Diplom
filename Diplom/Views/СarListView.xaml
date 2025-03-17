@@ -26,6 +26,14 @@ SelectedItem="{Binding CurrentStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyC
         <Button Content="Добавить" Command="{Binding addCommand}" HorizontalAlignment="Left" Margin="32,611,0,0" VerticalAlignment="Top" Width="66"/>
         <Button Content="Изменить" Command="{Binding editCommand}" HorizontalAlignment="Left" Margin="110,611,0,0" VerticalAlignment="Top" Width="77"/>
         <Button Content="Удалить" Command="{Binding deleteCommand}" HorizontalAlignment="Left" Margin="205,611,0,0" VerticalAlignment="Top" Width="67"/>
+        <TextBlock Text="Акты приема передачи" 
+          Foreground="Orange"
+           FontSize="16" 
+           FontWeight="Bold" 
+           HorizontalAlignment="Center" 
+           VerticalAlignment="Top" 
+           Margin="0,40,0,0"
+           Grid.Column="1"/>
         <DataGrid Margin="0,102,0,116"  ItemsSource="{Binding Acts}" SelectedItem="{Binding CurrentCar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False"  Grid.Column="1" IsReadOnly="True" HorizontalAlignment="Center" Width="665">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер акта"  Binding="{Binding TransferID}" Width="1*" />

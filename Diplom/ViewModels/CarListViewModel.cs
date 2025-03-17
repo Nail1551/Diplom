@@ -82,7 +82,7 @@ namespace Diplom.ViewModels
             _carlistmodel = new CarListModel();
             // заполняем список пользователей
             fillCars();
-            fillActs();
+            
 
             Statuses = _carlistmodel.getStatus();
 
@@ -125,14 +125,20 @@ namespace Diplom.ViewModels
 
         public void FilterAct()
         {
-            var acts = _carlistmodel.changeActByCar(CurrentCar.CarID);
-            Acts = new ObservableCollection<TransferClass>();
-            foreach (var act in acts)
+            if (CurrentCar != null)
             {
-                Acts.Add(act);
+                var acts = _carlistmodel.changeActByCar(CurrentCar.CarID);
+                Acts = new ObservableCollection<TransferClass>();
+
+                foreach (var act in acts)
+                {
+                    Acts.Add(act);
+                }
             }
-
-
+            else
+            {
+                fillActs();
+            }
         }
 
         private void clearFilters(object obj)
@@ -160,14 +166,19 @@ namespace Diplom.ViewModels
         {
             if (_carlistmodel.checkSelectedItem(CurrentCar))
             {
-                _carlistmodel.deleteCar(CurrentCar);
-                
-                Cars.Remove(CurrentCar);
-                
+                var result = MessageBox.Show("Вы действительно хотите удалить этот автомобиль?", "Подтверждение удаления",
+                                             MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    _carlistmodel.deleteCar(CurrentCar);
+                    Cars.Remove(CurrentCar);
+                    MessageBox.Show("Удаление выполнено успешно", "Готово", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
             else
             {
-                MessageBox.Show("Выберите авто");
+                MessageBox.Show("Выберите авто", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
