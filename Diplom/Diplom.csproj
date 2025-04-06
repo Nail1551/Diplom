@@ -185,27 +185,29 @@
     <Compile Include="Data\ApplicationContext.cs" />
     <Compile Include="Data\Cars.cs" />
     <Compile Include="Data\CarStatus.cs" />
+    <Compile Include="Data\DevCar.cs" />
     <Compile Include="Data\Employees.cs" />
-    <Compile Include="Data\Transfers.cs" />
     <Compile Include="Models\CarAddEditModel.cs" />
+    <Compile Include="Models\CarDevModel.cs" />
     <Compile Include="Models\CarListModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Utility\CarClass.cs" />
     <Compile Include="Utility\DbManager.cs" />
-    <Compile Include="Utility\TransferClass.cs" />
+    <Compile Include="Utility\DevClass.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CarAddEditViewModel.cs" />
     <Compile Include="ViewModels\CarListViewModel.cs" />
+    <Compile Include="ViewModels\DevCarViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\Navigation.cs" />
-    <Compile Include="Views\ActsView.xaml.cs">
-      <DependentUpon>ActsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\CarAddEdit.xaml.cs">
       <DependentUpon>CarAddEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DevCarView.xaml.cs">
+      <DependentUpon>DevCarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -223,11 +225,11 @@
     <Compile Include="Views\СarListView.xaml.cs">
       <DependentUpon>СarListView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\ActsView.xaml">
+    <Page Include="Views\CarAddEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CarAddEdit.xaml">
+    <Page Include="Views\DevCarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

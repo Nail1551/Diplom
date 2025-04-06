@@ -12,21 +12,18 @@ namespace Diplom.Models
     {
         private List<string> statuses;
         private List<CarClass> Cars;
-        private List<TransferClass> Acts;
+        
         private Navigation _navigation;
         public List<CarClass> getCars()
         {
             return Cars;
         }
-        public List<TransferClass> getActs()
-        {
-            return Acts;
-        }
+       
         public CarListModel()
         {
             Cars=DbManager.getCars(); 
             statuses = DbManager.getStatus();
-            Acts=DbManager.getTransfers();
+            
         }
         public List<string> getStatus()
         {
@@ -39,14 +36,6 @@ namespace Diplom.Models
             if (string.IsNullOrEmpty(statuses) == false) cars = cars.Where(ch => ch.CarStatus == statuses).ToList();
             return cars;
         }
-
-        public List<TransferClass> changeActByCar(int ID)
-        {
-            List<TransferClass> transfers = DbManager.getTransfers();
-           transfers = transfers.Where(ch => ch.CarID == ID).ToList();
-            return transfers;
-        }
-
 
         public string clearStatus() => null;
 

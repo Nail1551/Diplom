@@ -18,7 +18,7 @@ namespace Diplom.Views
     /// <summary>
     /// Логика взаимодействия для MainPageView.xaml
     /// </summary>
-    public partial class MainPageView : UserControl
+    public partial class MainPageView : Page
     {
         public MainPageView()
         {

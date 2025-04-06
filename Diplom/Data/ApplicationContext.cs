@@ -17,7 +17,7 @@ namespace Diplom.Data
         
         public DbSet<CarStatus> CarStatus { get; set; }
 
-        public DbSet<Transfers> Transfers { get; set; }
+        public DbSet<DevCar> DevCar { get; set; }
 
 
 

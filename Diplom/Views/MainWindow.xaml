@@ -3,26 +3,61 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Diplom"
+        xmlns:local="clr-namespace:Diplom.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="830" Width="1500">
     <Border Background="#272B2F" CornerRadius="10">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="37*"/>
-            <RowDefinition  Height="710*"  />
-            <RowDefinition Height="68*"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="37*"/>
+                <RowDefinition Height="710*"/>
+                <RowDefinition Height="68*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="209*"/>
+                <ColumnDefinition Width="1148*"/>
+                <ColumnDefinition Width="143*"/>
+            </Grid.ColumnDefinitions>
 
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="209*"/>
-            <ColumnDefinition Width="1148*"/>
-            <ColumnDefinition Width="143*"/>
-        </Grid.ColumnDefinitions>
-        <Border Background="#FFE25127" CornerRadius="10,0,0,10" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" >
-                <Button Content="Акты" Command="" Margin="13,89,10,671"/>
+            <!-- Левая панель -->
+            <Border Background="#FFE25127"
+                    CornerRadius="10,0,0,10"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.RowSpan="3">
+                <StackPanel VerticalAlignment="Top" Margin="10,62,10,0">
+
+                    <Button Content="Автомобили"
+                            Margin="0,0,0,10"
+                            Height="40"
+                            Background="White"
+                            Foreground="Black"
+                            FontWeight="Bold"
+                            Command="{Binding ShowCarsCommand}" />
+
+                    <Button Content="Выдача авто"
+                            Margin="0,0,0,10"
+                            Height="40"
+                            Background="White"
+                            Foreground="Black"
+                            FontWeight="Bold"
+                            Command="{Binding ShowDevCommand}" />
+
+                    <Button Content="Прием авто"
+                            Margin="0,0,0,10"
+                            Height="40"
+                            Background="White"
+                            Foreground="Black"
+                            FontWeight="Bold"
+                            Command="{Binding ShowReturnCommand}" />
+
+                </StackPanel>
             </Border>
-            <ContentControl Grid.Column="1" Grid.Row="1" Content="{Binding CurrentView}"/>
-    </Grid>
+
+            <!-- Контент -->
+            <ContentControl Grid.Column="1"
+                            Grid.Row="1"
+                            Content="{Binding CurrentView}"/>
+        </Grid>
     </Border>
 </Window>

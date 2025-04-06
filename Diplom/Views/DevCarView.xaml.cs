@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Diplom.Views
 {
     /// <summary>
-    /// Логика взаимодействия для ActsView.xaml
+    /// Логика взаимодействия для DevCarView.xaml
     /// </summary>
-    public partial class ActsView : UserControl
+    public partial class DevCarView : UserControl
     {
-        public ActsView()
+        public DevCarView()
         {
             InitializeComponent();
         }

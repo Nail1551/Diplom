@@ -19,6 +19,9 @@
             <DataTemplate DataType="{x:Type vm:CarAddEditViewModel}">
                 <view:CarAddEdit/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:DevCarViewModel}">
+                <view:CarAddEdit/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

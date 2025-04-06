@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Diplom.Views.DevCarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Diplom.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="709" d:DesignWidth="1148">
+    <Grid>
+        <DataGrid ItemsSource="{Binding DevCars}" Margin="77,155,77,155">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер документа"  Binding="{Binding DevID}" Width="1*" />
+                <DataGridTextColumn Header="Рег.номер" Binding="{Binding CarID}" Width="1*"/>
+                <DataGridTextColumn Header="Водитель" Binding="{Binding ToEmployeeID}" Width="1*"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding Comdition}" Width="1*"/>
+                <DataGridTextColumn Header="Пробег" Binding="{Binding Odometr}" Width="1*"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding TransferDate}" Width="1*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

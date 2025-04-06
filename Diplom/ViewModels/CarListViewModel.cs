@@ -31,23 +31,6 @@ namespace Diplom.ViewModels
                 }
             }
         }
-
-        private ObservableCollection<TransferClass> _acts;
-        public ObservableCollection<TransferClass> Acts
-        {
-            get => _acts;
-            set
-            {
-                if (_acts != value)
-                {
-                    _acts = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-
-
         private List<string> _statuses;
         public List<string> Statuses
         {
@@ -66,7 +49,7 @@ namespace Diplom.ViewModels
         public CarClass CurrentCar
         {
             get {return _currentCar; }
-            set { _currentCar = value; OnPropertyChanged(); FilterAct(); }
+            set { _currentCar = value; OnPropertyChanged(); }
         }
 
         #region Commands
@@ -74,6 +57,7 @@ namespace Diplom.ViewModels
         public ICommand addCommand { get; set; }
         public ICommand editCommand { get; set; }
         public ICommand deleteCommand { get; set; }
+        
         #endregion
         public CarListViewModel(Navigation navigation) 
         {
@@ -90,6 +74,7 @@ namespace Diplom.ViewModels
             addCommand = new RelayCommand(addCar);
             editCommand = new RelayCommand(editCar);
             deleteCommand = new RelayCommand(deleteCar);
+            
         }
         private void fillCars()
         {
@@ -102,17 +87,7 @@ namespace Diplom.ViewModels
                 Cars.Add(car);
             }
         }
-        private void fillActs()
-        {
-            // получаем их
-            var acts = _carlistmodel.getActs();
-            // создаем список и заполняем его
-            Acts = new ObservableCollection<TransferClass>();
-            foreach (var act in acts)
-            {
-                Acts.Add(act);
-            }
-        }
+       
         public void changeCarByFilter()
         {
             var cars = _carlistmodel.changeCarByFilter(CurrentStatus);
@@ -123,23 +98,7 @@ namespace Diplom.ViewModels
             }
         }
 
-        public void FilterAct()
-        {
-            if (CurrentCar != null)
-            {
-                var acts = _carlistmodel.changeActByCar(CurrentCar.CarID);
-                Acts = new ObservableCollection<TransferClass>();
-
-                foreach (var act in acts)
-                {
-                    Acts.Add(act);
-                }
-            }
-            else
-            {
-                fillActs();
-            }
-        }
+      
 
         private void clearFilters(object obj)
         {
@@ -181,5 +140,37 @@ namespace Diplom.ViewModels
                 MessageBox.Show("Выберите авто", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        
+        private void editAct(object obj)
+        {
+            if (_carlistmodel.checkSelectedItem(CurrentCar))
+            {
+                _navigation.CurrentView = new CarAddEditViewModel(_navigation, CurrentCar);
+            }
+            else
+            {
+                MessageBox.Show("Выберите акт!");
+            }
+        }
+        private void deleteAct(object obj)
+        {
+            if (_carlistmodel.checkSelectedItem(CurrentCar))
+            {
+                var result = MessageBox.Show("Вы действительно хотите удалить этот акт?", "Подтверждение удаления",
+                                             MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    _carlistmodel.deleteCar(CurrentCar);
+                    Cars.Remove(CurrentCar);
+                    MessageBox.Show("Удаление выполнено успешно", "Готово", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите акт", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
     }
 }
