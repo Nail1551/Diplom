@@ -7,12 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="709" d:DesignWidth="1148">
     <Grid>
-        <DataGrid ItemsSource="{Binding DevCars}" Margin="77,155,77,155">
+        <DataGrid ItemsSource="{Binding DevCars}" SelectedItem="{Binding CurrentDev, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False"  IsReadOnly="True" HorizontalAlignment="Center" Margin="77,155,77,155">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер документа"  Binding="{Binding DevID}" Width="1*" />
                 <DataGridTextColumn Header="Рег.номер" Binding="{Binding CarID}" Width="1*"/>
                 <DataGridTextColumn Header="Водитель" Binding="{Binding ToEmployeeID}" Width="1*"/>
-                <DataGridTextColumn Header="Описание" Binding="{Binding Comdition}" Width="1*"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding Condition}" Width="1*"/>
                 <DataGridTextColumn Header="Пробег" Binding="{Binding Odometr}" Width="1*"/>
                 <DataGridTextColumn Header="Дата" Binding="{Binding TransferDate}" Width="1*"/>
             </DataGrid.Columns>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Diplom;
 using Diplom.Utility;
 
@@ -25,13 +26,29 @@ namespace Diplom.ViewModels
                 }
             }
         }
-     
-
+        #region Commands
+        public ICommand ShowCarsCommand { get; set; }
+        public ICommand ShowDevCommand { get; set; }
+        public ICommand ShowReturnCommand { get; set; }
+        #endregion
 
         public Navigation()
         {
+
+            _currentView = new LoginViewModel(this);
+            ShowCarsCommand = new RelayCommand(Cars);
+            ShowDevCommand = new RelayCommand(DevCar);
+            //ShowReturnCommand = new RelayCommand(deleteCar);
+        }
+
+        private void Cars(object obj)
+        {
+            CurrentView = new CarListViewModel(this);
+        }
+        private void DevCar(object obj)
+        {
+            CurrentView = new DevCarViewModel(this);
            
-           _currentView= new LoginViewModel(this);
         }
     }
 }
