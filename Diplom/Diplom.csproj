@@ -191,6 +191,7 @@
     <Compile Include="Models\CarDevModel.cs" />
     <Compile Include="Models\CarListModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MainModel.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Utility\CarClass.cs" />
     <Compile Include="Utility\DbManager.cs" />
