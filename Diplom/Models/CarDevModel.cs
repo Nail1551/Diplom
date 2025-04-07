@@ -11,14 +11,18 @@ namespace Diplom.Models
 {
     public class CarDevModel
     {
-        private List<DevClass> DevCars;
+        private List<DevClass> DevCar;
         public List<DevClass> getDev()
         {
-            return DevCars;
+            return DevCar;
         }
         public CarDevModel() 
         {
-            DevCars = DbManager.getDev();
+            DevCar = DbManager.getDev();
+        }
+        public bool checkSelectedItem(DevClass dev)
+        {
+            return dev != null;
         }
     }
 }

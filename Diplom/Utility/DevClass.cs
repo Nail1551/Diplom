@@ -24,8 +24,8 @@ namespace Diplom.Utility
             }
         }
 
-        private string _carID;
-        public string CarID
+        private int _carID;
+        public int CarID
         {
             get => _carID;
             set
@@ -38,19 +38,10 @@ namespace Diplom.Utility
             }
         }
 
-        private string _toEmployeeID;
-        public string ToEmployeeID
-        {
-            get => _toEmployeeID;
-            set
-            {
-                if (_toEmployeeID != value)
-                {
-                    _toEmployeeID = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        public string LicensePlate { get; set; }
+
+        public int ToEmployeeID { get; set; }       
+        public string FIO { get; set; }
 
         private string _condition;
         public string Condition

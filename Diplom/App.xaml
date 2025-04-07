@@ -22,6 +22,9 @@
             <DataTemplate DataType="{x:Type vm:DevCarViewModel}">
                 <view:DevCarView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:AddEditDevViewModel}">
+                <view:AddEditDevCar/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

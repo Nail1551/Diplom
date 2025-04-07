@@ -141,36 +141,7 @@ namespace Diplom.ViewModels
             }
         }
         
-        private void editAct(object obj)
-        {
-            if (_carlistmodel.checkSelectedItem(CurrentCar))
-            {
-                _navigation.CurrentView = new CarAddEditViewModel(_navigation, CurrentCar);
-            }
-            else
-            {
-                MessageBox.Show("Выберите акт!");
-            }
-        }
-        private void deleteAct(object obj)
-        {
-            if (_carlistmodel.checkSelectedItem(CurrentCar))
-            {
-                var result = MessageBox.Show("Вы действительно хотите удалить этот акт?", "Подтверждение удаления",
-                                             MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    _carlistmodel.deleteCar(CurrentCar);
-                    Cars.Remove(CurrentCar);
-                    MessageBox.Show("Удаление выполнено успешно", "Готово", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Выберите акт", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+       
 
     }
 }

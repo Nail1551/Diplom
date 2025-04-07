@@ -102,6 +102,9 @@
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=7.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.7.5.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PropertyChanging, Version=1.31.0.0, Culture=neutral, PublicKeyToken=8b75edd8e1086950, processorArchitecture=MSIL">
       <HintPath>..\packages\PropertyChanging.Fody.1.31.0\lib\net452\PropertyChanging.dll</HintPath>
     </Reference>
@@ -187,6 +190,7 @@
     <Compile Include="Data\CarStatus.cs" />
     <Compile Include="Data\DevCar.cs" />
     <Compile Include="Data\Employees.cs" />
+    <Compile Include="Models\AddEditDevCarModel.cs" />
     <Compile Include="Models\CarAddEditModel.cs" />
     <Compile Include="Models\CarDevModel.cs" />
     <Compile Include="Models\CarListModel.cs" />
@@ -196,6 +200,7 @@
     <Compile Include="Utility\CarClass.cs" />
     <Compile Include="Utility\DbManager.cs" />
     <Compile Include="Utility\DevClass.cs" />
+    <Compile Include="ViewModels\AddEditDevViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CarAddEditViewModel.cs" />
     <Compile Include="ViewModels\CarListViewModel.cs" />
@@ -204,6 +209,9 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\Navigation.cs" />
+    <Compile Include="Views\AddEditDevCar.xaml.cs">
+      <DependentUpon>AddEditDevCar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CarAddEdit.xaml.cs">
       <DependentUpon>CarAddEdit.xaml</DependentUpon>
     </Compile>
@@ -226,6 +234,10 @@
     <Compile Include="Views\СarListView.xaml.cs">
       <DependentUpon>СarListView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AddEditDevCar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CarAddEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

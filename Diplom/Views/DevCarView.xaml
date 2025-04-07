@@ -6,16 +6,57 @@
              xmlns:local="clr-namespace:Diplom.Views"
              mc:Ignorable="d" 
              d:DesignHeight="709" d:DesignWidth="1148">
+
     <Grid>
-        <DataGrid ItemsSource="{Binding DevCars}" SelectedItem="{Binding CurrentDev, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False"  IsReadOnly="True" HorizontalAlignment="Center" Margin="77,155,77,155">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Таблица -->
+        <DataGrid Grid.Row="0"
+                  ItemsSource="{Binding DevCar}" 
+                  SelectedItem="{Binding CurrentDev, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  AutoGenerateColumns="False"  
+                  IsReadOnly="True" 
+                  HorizontalAlignment="Center" 
+                  Margin="77,20,77,10"
+                  Height="500">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер документа"  Binding="{Binding DevID}" Width="1*" />
-                <DataGridTextColumn Header="Рег.номер" Binding="{Binding CarID}" Width="1*"/>
-                <DataGridTextColumn Header="Водитель" Binding="{Binding ToEmployeeID}" Width="1*"/>
+                <DataGridTextColumn Header="Рег.номер" Binding="{Binding LicensePlate}" Width="1*"/>
+                <DataGridTextColumn Header="Водитель" Binding="{Binding FIO}" Width="1*"/>
                 <DataGridTextColumn Header="Описание" Binding="{Binding Condition}" Width="1*"/>
                 <DataGridTextColumn Header="Пробег" Binding="{Binding Odometr}" Width="1*"/>
                 <DataGridTextColumn Header="Дата" Binding="{Binding TransferDate}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
+
+        <!-- Кнопки -->
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,10,0,20"
+                    Grid.Row="1"
+                    >
+            <Button Content="Добавить"
+                    Command="{Binding addCommand}"
+                    Width="130" Height="35"
+                    Background="#FF6600"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    BorderBrush="Black"
+                    BorderThickness="1"
+                    Cursor="Hand"/>
+
+            <Button Content="Изменить"
+                    Command="{Binding editCommand}"
+                    Width="130" Height="35"
+                    Background="White"
+                    Foreground="Black"
+                    FontWeight="Bold"
+                    BorderBrush="#FF6600"
+                    BorderThickness="2"
+                    Cursor="Hand"/>
+        </StackPanel>
     </Grid>
 </UserControl>

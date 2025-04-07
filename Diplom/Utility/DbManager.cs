@@ -45,6 +45,31 @@ namespace Diplom.Utility
             }
         }
 
+        public static List<CarClass> getFreeCars()
+        {
+            using (var context = new ApplicationContext())
+            {
+                // Сначала из базы
+                var cars = context.Cars
+                                  .Where(c => c.CarStatusID == 1)
+                                  .ToList(); // Загружаем в память
+
+                // Потом преобразуем через метод
+                return cars.Select(car => new CarClass
+                {
+                    CarID = car.CarID,
+                    Brand = car.Brand,
+                    Model = car.Model,
+                    VIN = car.VIN,
+                    LicensePlate = car.LicensePlate,
+                    Mileage = car.Mileage,
+                    CarStatus = getStatusById(car.CarStatusID) // Теперь можно
+                }).ToList();
+
+            }
+        }
+        
+
         public static List<DevClass> getDev()
         {
             using (var context = new ApplicationContext())
@@ -56,8 +81,11 @@ namespace Diplom.Utility
                     // создаем экземпляр для которого заполняем данные и добавляем в список
                     DevClass userObj = new DevClass
                     {
-                        CarID = getCarPlateById(dev.CarID),
-                        ToEmployeeID=GetFIOById(dev.ToEmployeeID),
+                        DevID = dev.DevID,
+                        CarID = dev.CarID,  // сохраняем как int
+                        LicensePlate = getCarPlateById(dev.CarID), // для отображения
+                        ToEmployeeID =dev.ToEmployeeID,
+                        FIO=GetFIOById(dev.ToEmployeeID),
                         Condition = dev.Condition,
                         Odometr=getOdometrbyID(dev.CarID),
                         TransferDate = dev.TransferDate,
@@ -69,65 +97,62 @@ namespace Diplom.Utility
                 return devs;
             }
         }
-        public static void AddDev(string carId, string toEmployeeId, string condition, DateTime transferDate)
+        public static List<Employees> getEmployees()
         {
             using (var context = new ApplicationContext())
             {
-                // Получаем ID машины и сотрудника
-                int carIDInt = getCarIdByPlate(carId);
-                int employeeIDInt = getFIOIdByName(toEmployeeId);
-
-                // Получаем актуальный пробег из Cars
-                var car = context.Cars.FirstOrDefault(c => c.CarID == carIDInt);
+                return context.Employees.ToList();
+            }
+        }
+        public static void AddDev(int carId, int toEmployeeId, string condition, DateTime transferDate)
+        {
+            using (var context = new ApplicationContext())
+            {
+                // Получаем машину
+                var car = context.Cars.FirstOrDefault(c => c.CarID == carId);
                 int currentMileage = car?.Mileage ?? 0;
 
-                // 1. Добавляем акт выдачи
+                // Создаем акт передачи
                 var newDev = new DevCar
                 {
-                    CarID = carIDInt,
-                    ToEmployeeID = employeeIDInt,
+                    CarID = carId,
+                    ToEmployeeID = toEmployeeId,
                     Condition = condition,
                     Odometr = currentMileage,
-                    TransferDate = transferDate,
-                    
+                    TransferDate = transferDate
                 };
 
                 context.DevCar.Add(newDev);
 
-                // 2. Обновляем только статус авто на "Занят"
+                // Обновляем статус машины
                 if (car != null)
                 {
                     car.CarStatusID = 2; // Статус "Занят"
                 }
 
-                // 3. Сохраняем изменения
                 context.SaveChanges();
             }
         }
-        public static void editDev(int id, string carId, string toEmployeeId, string condition, DateTime transferDate)
+
+        public static void editDev(int id, int carId, int toEmployeeId, string condition, DateTime transferDate)
         {
             using (var context = new ApplicationContext())
             {
-                int carIDInt = getCarIdByPlate(carId);
-                int employeeIDInt = getFIOIdByName(toEmployeeId);
-
-                // Получаем текущий пробег из Cars
-                var car = context.Cars.FirstOrDefault(c => c.CarID == carIDInt);
+                var car = context.Cars.FirstOrDefault(c => c.CarID == carId);
                 int currentMileage = car?.Mileage ?? 0;
 
-                // Находим запись акта по DevID
+                // Находим и обновляем акт передачи
                 var dev = context.DevCar.FirstOrDefault(d => d.DevID == id);
                 if (dev != null)
                 {
-                    dev.CarID = carIDInt;
-                    dev.ToEmployeeID = employeeIDInt;
+                    dev.CarID = carId;
+                    dev.ToEmployeeID = toEmployeeId;
                     dev.Condition = condition;
-                    dev.Odometr = currentMileage; // обновляем пробег на основании записи из Cars
+                    dev.Odometr = currentMileage;
                     dev.TransferDate = transferDate;
-                    
                 }
 
-                // Обновляем только статус машины
+                // Обновляем статус авто
                 if (car != null)
                 {
                     car.CarStatusID = 2; // Статус "Занят"
@@ -136,7 +161,6 @@ namespace Diplom.Utility
                 context.SaveChanges();
             }
         }
-
 
         public static string getCarPlateById(int id)
         {

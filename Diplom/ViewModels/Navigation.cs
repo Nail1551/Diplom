@@ -38,7 +38,7 @@ namespace Diplom.ViewModels
             _currentView = new LoginViewModel(this);
             ShowCarsCommand = new RelayCommand(Cars);
             ShowDevCommand = new RelayCommand(DevCar);
-            //ShowReturnCommand = new RelayCommand(deleteCar);
+            
         }
 
         private void Cars(object obj)
