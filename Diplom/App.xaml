@@ -25,6 +25,9 @@
             <DataTemplate DataType="{x:Type vm:AddEditDevViewModel}">
                 <view:AddEditDevCar/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:AcceptViewModel}">
+                <view:AcceptView/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

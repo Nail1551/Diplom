@@ -64,6 +64,11 @@
                             Width="150"
                             HorizontalAlignment="Right"/>
                 </StackPanel>
+                <TextBlock Text="Выдача"
+           FontSize="18"
+           FontWeight="Bold"
+           Foreground="#333333"
+           HorizontalAlignment="Center" Margin="0,0,0,373" Width="70"/>
             </Grid>
         </Border>
     </Grid>

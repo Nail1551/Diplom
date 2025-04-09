@@ -18,6 +18,8 @@ namespace Diplom.Data
         public DbSet<CarStatus> CarStatus { get; set; }
 
         public DbSet<DevCar> DevCar { get; set; }
+        
+        public DbSet<AcceptCar> AcceptCar { get; set; }
 
 
 

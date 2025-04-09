@@ -38,7 +38,7 @@ namespace Diplom.ViewModels
             _currentView = new LoginViewModel(this);
             ShowCarsCommand = new RelayCommand(Cars);
             ShowDevCommand = new RelayCommand(DevCar);
-            
+            ShowReturnCommand = new RelayCommand(AccCar);
         }
 
         private void Cars(object obj)
@@ -49,6 +49,11 @@ namespace Diplom.ViewModels
         {
             CurrentView = new DevCarViewModel(this);
            
+        }
+        private void AccCar(object obj)
+        {
+            CurrentView = new AcceptViewModel(this);
+
         }
     }
 }
