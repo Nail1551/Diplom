@@ -8,6 +8,7 @@ using Diplom.Models;
 using Diplom.Utility;
 using System.Windows.Input;
 using Diplom.Data;
+using System.Windows;
 
 namespace Diplom.ViewModels
 {
@@ -43,8 +44,8 @@ namespace Diplom.ViewModels
             _navigation = navigation;
             _acceptmodel = new AcceptModel();
             fillAcc();
-            //addCommand = new RelayCommand(addAcc);
-            //editCommand = new RelayCommand(editAcc);
+            addCommand = new RelayCommand(addAcc);
+            editCommand = new RelayCommand(editAcc);
         }
         private void fillAcc()
         {
@@ -58,20 +59,20 @@ namespace Diplom.ViewModels
             }
         }
 
-        //private void addAcc(object obj)
-        //{
-        //    _navigation.CurrentView = new AddEditDevViewModel(_navigation, null);
-        //}
-        //private void editDev(object obj)
-        //{
-        //    if (_cardevmodel.checkSelectedItem(CurrentDev))
-        //    {
-        //        _navigation.CurrentView = new AddEditDevViewModel(_navigation, CurrentDev);
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Выберите акт!");
-        //    }
-        //}
+        private void addAcc(object obj)
+        {
+            _navigation.CurrentView = new AddEditAcceptViewModel(_navigation, null);
+        }
+        private void editAcc(object obj)
+        {
+            if (_acceptmodel.checkSelectedItem(CurrentAcc))
+            {
+                _navigation.CurrentView = new AddEditAcceptViewModel(_navigation, CurrentAcc);
+            }
+            else
+            {
+                MessageBox.Show("Выберите акт!");
+            }
+        }
     }
 }

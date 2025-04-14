@@ -185,6 +185,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\LicensePlateValidationRule.cs" />
     <Compile Include="Data\AcceptCar.cs" />
     <Compile Include="Data\ApplicationContext.cs" />
     <Compile Include="Data\Cars.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Data\DevCar.cs" />
     <Compile Include="Data\Employees.cs" />
     <Compile Include="Models\AcceptModel.cs" />
+    <Compile Include="Models\AddEditAcceptModel.cs" />
     <Compile Include="Models\AddEditDevCarModel.cs" />
     <Compile Include="Models\CarAddEditModel.cs" />
     <Compile Include="Models\CarDevModel.cs" />
@@ -204,6 +206,7 @@
     <Compile Include="Utility\DbManager.cs" />
     <Compile Include="Utility\DevClass.cs" />
     <Compile Include="ViewModels\AcceptViewModel.cs" />
+    <Compile Include="ViewModels\AddEditAcceptViewModel.cs" />
     <Compile Include="ViewModels\AddEditDevViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CarAddEditViewModel.cs" />
@@ -215,6 +218,9 @@
     <Compile Include="ViewModels\Navigation.cs" />
     <Compile Include="Views\AcceptView.xaml.cs">
       <DependentUpon>AcceptView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddEditAcceptView.xaml.cs">
+      <DependentUpon>AddEditAcceptView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AddEditDevCar.xaml.cs">
       <DependentUpon>AddEditDevCar.xaml</DependentUpon>
@@ -242,6 +248,10 @@
       <DependentUpon>СarListView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AcceptView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddEditAcceptView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

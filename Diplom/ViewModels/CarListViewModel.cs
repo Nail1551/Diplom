@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Diplom.Data;
@@ -13,7 +9,7 @@ using Diplom.Utility;
 
 namespace Diplom.ViewModels
 {
-    public class CarListViewModel:BaseViewModel
+    public class CarListViewModel : BaseViewModel
     {
         private CarListModel _carlistmodel;
         private Navigation _navigation;
@@ -31,10 +27,22 @@ namespace Diplom.ViewModels
                 }
             }
         }
+
+        private ObservableCollection<CarClass> _filteredCars;
+        public ObservableCollection<CarClass> FilteredCars
+        {
+            get => _filteredCars;
+            set
+            {
+                _filteredCars = value;
+                OnPropertyChanged();
+            }
+        }
+
         private List<string> _statuses;
         public List<string> Statuses
         {
-            get { return _statuses; }
+            get => _statuses;
             set { _statuses = value; OnPropertyChanged(); }
         }
 
@@ -42,13 +50,30 @@ namespace Diplom.ViewModels
         public string CurrentStatus
         {
             get { return _currentStatus; }
-            set { _currentStatus = value; OnPropertyChanged(); changeCarByFilter(); }
+            set
+            {
+                _currentStatus = value;
+                OnPropertyChanged();
+                ApplyFilters();
+            }
+        }
+
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged();
+                ApplyFilters();
+            }
         }
 
         private CarClass _currentCar;
         public CarClass CurrentCar
         {
-            get {return _currentCar; }
+            get => _currentCar;
             set { _currentCar = value; OnPropertyChanged(); }
         }
 
@@ -57,59 +82,51 @@ namespace Diplom.ViewModels
         public ICommand addCommand { get; set; }
         public ICommand editCommand { get; set; }
         public ICommand deleteCommand { get; set; }
-        
         #endregion
-        public CarListViewModel(Navigation navigation) 
+
+        public CarListViewModel(Navigation navigation)
         {
-            // получаем и заполняем данные
             _navigation = navigation;
             _carlistmodel = new CarListModel();
-            // заполняем список пользователей
-            fillCars();
-            
 
+            fillCars();
             Statuses = _carlistmodel.getStatus();
 
             ClearFiltersCommand = new RelayCommand(clearFilters);
             addCommand = new RelayCommand(addCar);
             editCommand = new RelayCommand(editCar);
             deleteCommand = new RelayCommand(deleteCar);
-            
-        }
-        private void fillCars()
-        {
-            // получаем их
-            var cars = _carlistmodel.getCars();
-            // создаем список и заполняем его
-            Cars = new ObservableCollection<CarClass>();
-            foreach (var car in cars)
-            {
-                Cars.Add(car);
-            }
-        }
-       
-        public void changeCarByFilter()
-        {
-            var cars = _carlistmodel.changeCarByFilter(CurrentStatus);
-            Cars = new ObservableCollection<CarClass>();
-            foreach (var car in cars)
-            {
-                Cars.Add(car);
-            }
+
+            SearchText = string.Empty;
+            CurrentStatus = "Все";
         }
 
-      
+        private void fillCars()
+        {
+            Cars = new ObservableCollection<CarClass>(_carlistmodel.getCars());
+            ApplyFilters();
+        }
+
+        private void ApplyFilters()
+        {
+            var filtered = Cars.Where(car =>
+                (string.IsNullOrWhiteSpace(SearchText) || car.LicensePlate.Contains(SearchText)) &&
+                (CurrentStatus == "Все" || car.CarStatus == CurrentStatus));
+
+            FilteredCars = new ObservableCollection<CarClass>(filtered);
+        }
 
         private void clearFilters(object obj)
         {
+            SearchText = string.Empty;
             CurrentStatus = _carlistmodel.clearStatus();
-            
         }
 
         private void addCar(object obj)
         {
             _navigation.CurrentView = new CarAddEditViewModel(_navigation, null);
         }
+
         private void editCar(object obj)
         {
             if (_carlistmodel.checkSelectedItem(CurrentCar))
@@ -121,6 +138,7 @@ namespace Diplom.ViewModels
                 MessageBox.Show("Выберите авто!");
             }
         }
+
         private void deleteCar(object obj)
         {
             if (_carlistmodel.checkSelectedItem(CurrentCar))
@@ -132,6 +150,7 @@ namespace Diplom.ViewModels
                 {
                     _carlistmodel.deleteCar(CurrentCar);
                     Cars.Remove(CurrentCar);
+                    ApplyFilters();
                     MessageBox.Show("Удаление выполнено успешно", "Готово", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
@@ -140,8 +159,5 @@ namespace Diplom.ViewModels
                 MessageBox.Show("Выберите авто", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        
-       
-
     }
 }

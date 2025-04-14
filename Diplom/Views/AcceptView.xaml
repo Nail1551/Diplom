@@ -14,20 +14,19 @@
 
         <!-- Таблица -->
         <DataGrid Grid.Row="0"
-              ItemsSource="{Binding AcceptCar}" 
+              ItemsSource="{Binding Accept}" 
               SelectedItem="{Binding CurrentAcc, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
               AutoGenerateColumns="False"  
               IsReadOnly="True" 
               HorizontalAlignment="Center" 
-              Margin="77,20,77,10"
-              Height="500">
+              Margin="0,20,0,0" Width="679">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Номер документа"  Binding="{Binding acceptID }" Width="1*" />
+                <DataGridTextColumn Header="Номер документа"  Binding="{Binding AcceptID }" Width="1*" />
                 <DataGridTextColumn Header="Рег.номер" Binding="{Binding LicensePlate}" Width="1*"/>
                 <DataGridTextColumn Header="Водитель" Binding="{Binding FIO}" Width="1*"/>
-                <DataGridTextColumn Header="Описание" Binding="{Binding Condition}" Width="1*"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding Comment}" Width="1*"/>
                 <DataGridTextColumn Header="Пробег" Binding="{Binding Odometr}" Width="1*"/>
-                <DataGridTextColumn Header="Дата" Binding="{Binding acceptDate}" Width="1*"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding AcceptDate}" Width="1*"/>
             </DataGrid.Columns>
         </DataGrid>
 

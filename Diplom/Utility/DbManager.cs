@@ -70,35 +70,35 @@ namespace Diplom.Utility
 
             }
         }
-        
+
 
         public static List<DevClass> getDev()
         {
             using (var context = new ApplicationContext())
             {
-                // создаем список из вспомогательного класса
                 List<DevClass> devs = new List<DevClass>();
+
                 foreach (var dev in context.DevCar)
                 {
-                    // создаем экземпляр для которого заполняем данные и добавляем в список
-                    DevClass userObj = new DevClass
+                    DevClass devObj = new DevClass
                     {
                         DevID = dev.DevID,
-                        CarID = dev.CarID,  // сохраняем как int
-                        LicensePlate = getCarPlateById(dev.CarID), // для отображения
-                        ToEmployeeID =dev.ToEmployeeID,
-                        FIO=GetFIOById(dev.ToEmployeeID),
+                        CarID = dev.CarID,
+                        LicensePlate = getCarPlateById(dev.CarID),
+                        ToEmployeeID = dev.ToEmployeeID,
+                        FIO = GetFIOById(dev.ToEmployeeID),
                         Condition = dev.Condition,
-                        Odometr=getOdometrbyID(dev.CarID),
-                        TransferDate = dev.TransferDate,
+                        Odometr = dev.Odometr, 
+                        TransferDate = dev.TransferDate
                     };
 
-                    devs.Add(userObj);
+                    devs.Add(devObj);
                 }
 
                 return devs;
             }
         }
+
         public static List<Employees> getEmployees()
         {
             using (var context = new ApplicationContext())
@@ -110,31 +110,29 @@ namespace Diplom.Utility
         {
             using (var context = new ApplicationContext())
             {
-                // Получаем машину
                 var car = context.Cars.FirstOrDefault(c => c.CarID == carId);
                 int currentMileage = car?.Mileage ?? 0;
 
-                // Создаем акт передачи
                 var newDev = new DevCar
                 {
                     CarID = carId,
                     ToEmployeeID = toEmployeeId,
                     Condition = condition,
-                    Odometr = currentMileage,
+                    Odometr = currentMileage,         // сохраняем пробег только при создании
                     TransferDate = transferDate
                 };
 
                 context.DevCar.Add(newDev);
 
-                // Обновляем статус машины
                 if (car != null)
                 {
-                    car.CarStatusID = 2; // Статус "Занят"
+                    car.CarStatusID = 2; // "Занят"
                 }
 
                 context.SaveChanges();
             }
         }
+
 
         public static void editDev(int id, int carId, int toEmployeeId, string condition, DateTime transferDate)
         {
@@ -168,22 +166,20 @@ namespace Diplom.Utility
         {
             using (var context = new ApplicationContext())
             {
-                // создаем список из вспомогательного класса
                 List<AcceptCarClass> accepts = new List<AcceptCarClass>();
 
                 foreach (var accept in context.AcceptCar)
                 {
-                    // создаем экземпляр для которого заполняем данные и добавляем в список
                     AcceptCarClass acceptObj = new AcceptCarClass
                     {
                         AcceptID = accept.AcceptID,
                         DevID = accept.DevID,
-                        CarID = accept.CarID,  // сохраняем как int
-                        LicensePlate = getCarPlateById(accept.CarID), // для отображения
+                        CarID = accept.CarID,
+                        LicensePlate = getCarPlateById(accept.CarID),
                         EmployeeID = accept.EmployeeID,
                         FIO = GetFIOById(accept.EmployeeID),
                         Comment = accept.Comment,
-                        Odometr = getOdometrbyID(accept.CarID),
+                        Odometr = accept.Odometr, // ← фиксированное значение из приёмки
                         AcceptDate = accept.AcceptDate
                     };
 
@@ -195,44 +191,67 @@ namespace Diplom.Utility
         }
 
 
+        public static List<CarClass> GetCarsAvailableForAccept(int employeeId)
+        {
+            using (var context = new ApplicationContext())
+            {
+                var result = (from dev in context.DevCar
+                              join car in context.Cars on dev.CarID equals car.CarID
+                              where car.CarStatusID == 2
+                                    && dev.ToEmployeeID == employeeId
+                                    && dev.TransferDate == context.DevCar
+                                         .Where(d => d.CarID == car.CarID)
+                                         .Max(d => d.TransferDate)
+                              select new CarClass
+                              {
+                                  CarID = car.CarID,
+                                  LicensePlate = car.LicensePlate
+                              }).ToList();
+
+                return result;
+            }
+        }
+        public static List<CarClass> GetAllBusyCars()
+        {
+            using (var context = new ApplicationContext())
+            {
+                return (from car in context.Cars
+                        where car.CarStatusID == 2
+                        select new CarClass
+                        {
+                            CarID = car.CarID,
+                            LicensePlate = car.LicensePlate
+                        }).ToList();
+            }
+        }
+
+        public static DevCar GetLastDevByCar(int carId)
+        {
+            using (var context = new ApplicationContext())
+            {
+                return context.DevCar
+                    .Where(d => d.CarID == carId)
+                    .OrderByDescending(d => d.TransferDate)
+                    .FirstOrDefault();
+            }
+        }
 
         public static void AddAccept(int carId, int employeeId, string comment, DateTime acceptDate, int odometer)
         {
             using (var context = new ApplicationContext())
             {
                 var car = context.Cars.FirstOrDefault(c => c.CarID == carId);
-                if (car == null)
-                    return;
+                if (car == null) return;
 
-                
-                if (odometer > car.Mileage)
-                {
-                    car.Mileage = odometer;
-                }
-
-                
-                if (car.Mileage % 15000 == 0)
-                {
-                    car.CarStatusID = 3; 
-                }
-                else
-                {
-                    car.CarStatusID = 1; 
-                }
-
-                
-                var lastDev = context.DevCar
+                var dev = context.DevCar
                     .Where(d => d.CarID == carId)
                     .OrderByDescending(d => d.TransferDate)
                     .FirstOrDefault();
 
-                int? devId = lastDev?.DevID;
-
-                
                 var accept = new AcceptCar
                 {
                     CarID = carId,
-                    DevID = devId ?? 0,
+                    DevID = dev?.DevID ?? 0,
                     EmployeeID = employeeId,
                     Comment = comment,
                     Odometr = odometer,
@@ -240,46 +259,36 @@ namespace Diplom.Utility
                 };
 
                 context.AcceptCar.Add(accept);
-                context.SaveChanges();
-            }
-        }
-        public static void UpdateAccept(int acceptId, int employeeId, string comment, DateTime acceptDate, int odometer)
-        {
-            using (var context = new ApplicationContext())
-            {
-                var accept = context.AcceptCar.FirstOrDefault(a => a.AcceptID == acceptId);
-                if (accept == null)
-                    return;
 
-                var car = context.Cars.FirstOrDefault(c => c.CarID == accept.CarID);
-                if (car == null)
-                    return;
-
-                // Обновляем пробег автомобиля, если он увеличился
+                // Обновляем пробег в таблице Cars
                 if (odometer > car.Mileage)
                 {
                     car.Mileage = odometer;
                 }
 
-                // Обновляем статус автомобиля
-                if (car.Mileage % 15000 == 0)
-                {
-                    car.CarStatusID = 3; // На ТО
-                }
-                else
-                {
-                    car.CarStatusID = 1; // Свободен
-                }
-
-                // Обновляем данные приёма
-                accept.EmployeeID = employeeId;
-                accept.Comment = comment;
-                accept.AcceptDate = acceptDate;
-                accept.Odometr = odometer;
+                // Обновляем статус авто
+                car.CarStatusID = (car.Mileage % 15000 == 0) ? 3 : 1;
 
                 context.SaveChanges();
             }
         }
+
+        public static void UpdateAccept(int acceptId, int employeeId, string comment, DateTime acceptDate, int odometer)
+        {
+            using (var context = new ApplicationContext())
+            {
+                var accept = context.AcceptCar.FirstOrDefault(a => a.AcceptID == acceptId);
+                if (accept == null) return;
+
+                accept.EmployeeID = employeeId;
+                accept.Comment = comment;
+                accept.AcceptDate = acceptDate;
+                accept.Odometr = odometer;
+                context.SaveChanges();
+            }
+        }
+
+        
 
         public static string getCarPlateById(int id)
         {

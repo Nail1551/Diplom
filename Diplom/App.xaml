@@ -14,7 +14,7 @@
                 <view:MainPageView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:CarListViewModel}">
-                <view:СarListView/>
+                <view:CarListView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:CarAddEditViewModel}">
                 <view:CarAddEdit/>
@@ -27,6 +27,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:AcceptViewModel}">
                 <view:AcceptView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:AddEditAcceptViewModel}">
+                <view:AddEditAcceptView/>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
