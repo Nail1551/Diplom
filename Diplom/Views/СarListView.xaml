@@ -4,6 +4,10 @@
              xmlns:conv="clr-namespace:Diplom.Converters"
              Background="Transparent">
 
+    <UserControl.Resources>
+        <conv:UppercaseConverter x:Key="UppercaseConverter"/>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -11,37 +15,64 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Фильтрация -->
+        <!-- Панель фильтрации -->
         <StackPanel Orientation="Horizontal" Margin="20">
             <ComboBox Width="150" Margin="0,0,10,0"
                       ItemsSource="{Binding Statuses}"
                       SelectedItem="{Binding CurrentStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
+            <TextBox Width="200" Margin="0,0,10,0"
+                     ToolTip="Введите номер (только заглавные русские буквы и цифры)">
+                <TextBox.Text>
+                    <Binding Path="SearchText"
+                             Mode="TwoWay"
+                             UpdateSourceTrigger="PropertyChanged"
+                             Converter="{StaticResource UppercaseConverter}">
+                        <Binding.ValidationRules>
+                            <conv:LicensePlateValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
             <Button Content="Очистить" Command="{Binding ClearFiltersCommand}" Width="80"/>
         </StackPanel>
 
-        <!-- Список авто -->
-        <ScrollViewer Grid.Row="1" Margin="20">
-            <ListView ItemsSource="{Binding FilteredCars}"
-                      SelectedItem="{Binding CurrentCar, Mode=TwoWay}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Margin="5" Padding="10" Background="White">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding ImagePath}" Width="100" Height="60" Margin="0,0,10,0"/>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding LicensePlate}" FontSize="14" FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Brand}"/>
-                                    <TextBlock Text="{Binding CarStatus}"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </ScrollViewer>
+        <!-- Список автомобилей -->
+        <ListView Grid.Row="1" Margin="20"
+                  ItemsSource="{Binding FilteredCars}"
+                  SelectedItem="{Binding CurrentCar, Mode=TwoWay}"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
 
-        <!-- Кнопки -->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Margin" Value="10"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Top"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border Width="280" BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Padding="10" Background="White">
+                        <StackPanel>
+                            <Image Source="{Binding ImagePath}" Height="100" Stretch="UniformToFill" Margin="0,0,0,10"/>
+                            <TextBlock Text="{Binding LicensePlate}" FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Text="{Binding Brand}"/>
+                            <TextBlock Text="{Binding CarStatus}"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!-- Кнопки управления -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="32,0,0,20">
             <Button Content="Добавить" Width="80" Margin="0,0,10,0" Command="{Binding addCommand}"/>
             <Button Content="Изменить" Width="80" Margin="0,0,10,0" Command="{Binding editCommand}"/>
