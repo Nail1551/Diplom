@@ -37,7 +37,8 @@ namespace Diplom.Utility
                         VIN = car.VIN,
                         LicensePlate = car.LicensePlate,
                         Mileage = car.Mileage,
-                        CarStatus = getStatusById(car.CarStatusID)
+                        CarStatus = getStatusById(car.CarStatusID),
+                        PhotoPath = car.PhotoPath
                     };
 
                     cars.Add(userObj);
@@ -88,7 +89,7 @@ namespace Diplom.Utility
                         ToEmployeeID = dev.ToEmployeeID,
                         FIO = GetFIOById(dev.ToEmployeeID),
                         Condition = dev.Condition,
-                        Odometr = dev.Odometr, 
+                        Odometr = dev.Odometr,
                         TransferDate = dev.TransferDate
                     };
 
@@ -288,7 +289,7 @@ namespace Diplom.Utility
             }
         }
 
-        
+
 
         public static string getCarPlateById(int id)
         {
@@ -350,13 +351,13 @@ namespace Diplom.Utility
         {
             using (var context = new ApplicationContext())
             {
-                
-                return  context.CarStatus.Where(ch => ch.Name == name).First().ID;
+
+                return context.CarStatus.Where(ch => ch.Name == name).First().ID;
             }
         }
-       
-       
-        public static void createСar(string brand, string model, string vin, string licenseplate, string carstatus, int mileage)
+
+
+        public static void createСar(string brand, string model, string vin, string licenseplate, string carstatus, int mileage, string photopath)
         {
             using (var context = new ApplicationContext())
             {
@@ -369,6 +370,7 @@ namespace Diplom.Utility
                     car.LicensePlate = licenseplate;
                     car.Mileage = mileage;
                     car.CarStatusID = getStatusIdByName(carstatus);
+                    car.PhotoPath = photopath;
                 };
 
                 // добавляем его в список, сохраняем изменения и берем его айди
@@ -378,7 +380,7 @@ namespace Diplom.Utility
                 context.SaveChanges();
             }
         }
-        public static void editCar(int id, string brand, string model, string vin, string licenseplate, string carstatus, int mileage)
+        public static void editCar(int id, string brand, string model, string vin, string licenseplate, string carstatus, int mileage, string photopath)
         {
             using (var context = new ApplicationContext())
             {
@@ -391,6 +393,7 @@ namespace Diplom.Utility
                 car.LicensePlate = licenseplate;
                 car.Mileage = mileage;
                 car.CarStatusID = getStatusIdByName(carstatus);
+                car.PhotoPath= photopath;
 
                 // сохраняем изменения
                 context.SaveChanges();
@@ -406,5 +409,78 @@ namespace Diplom.Utility
                 context.SaveChanges();
             }
         }
+        public static string GetReasonNameById(int reasonId)
+        {
+            using (var context = new ApplicationContext())
+            {
+                var reason = context.Reason.FirstOrDefault(r => r.ID == reasonId);
+                return reason != null ? reason.ReasonName : "Неизвестно";
+            }
+        }
+
+        public static List<ServiceCarClass> GetRepair()
+        {
+            using (var context = new ApplicationContext())
+            {
+                List<ServiceCarClass> repairs = new List<ServiceCarClass>();
+
+                var carsOnService = context.Cars
+                    .Where(c => c.CarStatusID == 3)
+                    .ToList(); // только машины на ТО
+
+                foreach (var car in carsOnService)
+                {
+                    ServiceCarClass repairObj = new ServiceCarClass
+                    {
+                        RepairID = 0, // Условно, реального ремонта нет
+                        CarID = car.CarID,
+                        LicensePlate = car.LicensePlate,
+                        Brand = car.Brand,
+                        Model = car.Model,
+                        ReasonID = 1, // Плановое ТО
+                        ReasonName = "Плановое ТО",
+                        Description = "На плановом техническом обслуживании",
+                        RepairDate = DateTime.Now
+                    };
+
+                    repairs.Add(repairObj);
+                }
+
+                return repairs;
+            }
+        }
+        public static void CompleteService(ServiceCarClass selectedCar)
+        {
+            using (var context = new ApplicationContext())
+            {
+                var car = context.Cars.FirstOrDefault(c => c.CarID == selectedCar.CarID);
+
+                if (car != null)
+                {
+                    car.CarStatusID = 1; // Меняем статус на Свободно
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        public static List<string> getReasons()
+        {
+            using (var context = new ApplicationContext())
+            {
+                return context.Reason.Select(r => r.ReasonName).ToList();
+            }
+        }
+
+        // Найти ID причины ремонта по её названию
+        public static int getReasonIdByName(string name)
+        {
+            using (var context = new ApplicationContext())
+            {
+                var reason = context.Reason.FirstOrDefault(r => r.ReasonName == name);
+                return reason != null ? reason.ID : 0;
+            }
+        }
+     
+       
     }
 }

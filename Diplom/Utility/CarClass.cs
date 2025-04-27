@@ -82,6 +82,12 @@ namespace Diplom.Utility
             get { return _carstatus; }
             set { _carstatus = value; }
         }
+        private string _photopath;
 
+        public string PhotoPath
+        {
+            get { return _photopath; }
+            set { _photopath = value; }
+        }
     }
 }

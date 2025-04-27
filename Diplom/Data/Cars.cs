@@ -86,6 +86,14 @@ namespace Diplom.Data
             set { _carstatusid = value; }
         }
 
+        private string _photopath;
+
+        public  string PhotoPath
+        {
+            get { return _photopath; }
+            set { _photopath = value; }
+        }
+
 
 
 

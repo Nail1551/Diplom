@@ -31,6 +31,15 @@
             <DataTemplate DataType="{x:Type vm:AddEditAcceptViewModel}">
                 <view:AddEditAcceptView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:ServiceViewModel}">
+                <view:ServiceView/>
+            </DataTemplate>
+            <ResourceDictionary.MergedDictionaries>
+
+                <!-- Подключение словаря стилей -->
+                <ResourceDictionary Source="Utility/Dictionary1.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

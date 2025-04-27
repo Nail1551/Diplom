@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Diplom.Data;
 using Diplom.Models;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Diplom.Data
 {
@@ -20,6 +22,9 @@ namespace Diplom.Data
         public DbSet<DevCar> DevCar { get; set; }
         
         public DbSet<AcceptCar> AcceptCar { get; set; }
+
+        public DbSet<Repair> Repair { get; set; }
+        public DbSet<Reason> Reason { get; set; }
 
 
 

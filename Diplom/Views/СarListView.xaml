@@ -62,10 +62,19 @@
                 <DataTemplate>
                     <Border Width="280" BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Padding="10" Background="White">
                         <StackPanel>
-                            <Image Source="{Binding ImagePath}" Height="100" Stretch="UniformToFill" Margin="0,0,0,10"/>
+                            <Image  Stretch="Uniform" MaxHeight="120" Margin="0,0,0,10">
+                                   <Image.Source>
+                                <Binding Path="PhotoPath">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>\Utility\Default.jpg</ImageSource>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                                </Image.Source>
+                            </Image>
                             <TextBlock Text="{Binding LicensePlate}" FontWeight="Bold" FontSize="14"/>
                             <TextBlock Text="{Binding Brand}"/>
                             <TextBlock Text="{Binding CarStatus}"/>
+                            <TextBlock Text="{Binding Mileage, StringFormat='Пробег: {0} км'}" />
                         </StackPanel>
                     </Border>
                 </DataTemplate>

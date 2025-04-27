@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Diplom.Data;
 using Diplom.Models;
 using Diplom.Utility;
+using Microsoft.Win32;
 
 namespace Diplom.ViewModels
 {
@@ -78,6 +79,15 @@ namespace Diplom.ViewModels
         {
             get { return _carstatus; }
             set { _carstatus = value; }
+
+        }
+
+        private string _photopath;
+
+        public string PhotoPath
+        {
+            get { return _photopath; }
+            set { _photopath = value; }
         }
 
         private List<string> _statuses;
@@ -91,12 +101,12 @@ namespace Diplom.ViewModels
 
         public ICommand CloseCommand { get; set; }
         public ICommand confirmCommand { get; set; }
-        
-
+        public ICommand SelectPhotoCommand { get; set; }
         #endregion
-        public CarAddEditViewModel(Navigation navigation,CarClass car) 
+
+        public CarAddEditViewModel(Navigation navigation, CarClass car)
         {
-            _navigation= navigation;
+            _navigation = navigation;
             _caraddeditmodel = new CarAddEditModel();
             Statuses = _caraddeditmodel.FillStatus();
 
@@ -110,11 +120,14 @@ namespace Diplom.ViewModels
                 LicensePlate = car.LicensePlate;
                 Mileage = car.Mileage;
                 CarStatus = car.CarStatus;
+                PhotoPath = car.PhotoPath; // !!! загружаем фото при редактировании
             }
+
             CloseCommand = new RelayCommand(goBack);
             confirmCommand = new RelayCommand(confirm);
-
+            SelectPhotoCommand = new RelayCommand(selectPhoto); // команда выбрать фото
         }
+
         private void goBack(object obj)
         {
             _navigation.CurrentView = new CarListViewModel(_navigation);
@@ -123,18 +136,28 @@ namespace Diplom.ViewModels
         // метод подтверждения 
         private void confirm(object obj)
         {
-            // если юзера нет(тоесть не передали при переходе), то создаем
             if (_car == null)
             {
-                _caraddeditmodel.createCar( Brand,  Model,  VIN,  LicensePlate,  CarStatus, Mileage);
+                _caraddeditmodel.createCar(Brand, Model, VIN, LicensePlate, CarStatus, Mileage, PhotoPath); // передаем фотку
             }
-            // иначе изменяем
             else
             {
-                _caraddeditmodel.editCar(_car.CarID, Brand, Model, VIN, LicensePlate,CarStatus, Mileage);
+                _caraddeditmodel.editCar(_car.CarID, Brand, Model, VIN, LicensePlate, CarStatus, Mileage, PhotoPath); // передаем фотку
             }
-            // возвращаем на страницу с таблицей
+
             _navigation.CurrentView = new CarListViewModel(_navigation);
+        }
+
+        // метод выбора фото
+        private void selectPhoto(object obj)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Изображения (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                PhotoPath = openFileDialog.FileName;
+            }
         }
     }
 }

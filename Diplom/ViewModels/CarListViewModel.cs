@@ -67,7 +67,7 @@ namespace Diplom.ViewModels
             _carlistmodel = new CarListModel();
 
             LoadCars();
-            Statuses = _carlistmodel.getStatus(); // Предположительно: ["Доступен", "В ремонте", "Списан"]
+            Statuses = _carlistmodel.getStatus(); 
 
             ClearFiltersCommand = new RelayCommand(clearFilters);
             addCommand = new RelayCommand(addCar);
@@ -75,7 +75,7 @@ namespace Diplom.ViewModels
             deleteCommand = new RelayCommand(deleteCar);
 
             SearchText = string.Empty;
-            CurrentStatus = null; // ← Старт без фильтра по статусу
+            CurrentStatus = null; 
         }
 
         private void LoadCars()

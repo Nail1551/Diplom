@@ -192,6 +192,8 @@
     <Compile Include="Data\CarStatus.cs" />
     <Compile Include="Data\DevCar.cs" />
     <Compile Include="Data\Employees.cs" />
+    <Compile Include="Data\Reason.cs" />
+    <Compile Include="Data\Repair.cs" />
     <Compile Include="Models\AcceptModel.cs" />
     <Compile Include="Models\AddEditAcceptModel.cs" />
     <Compile Include="Models\AddEditDevCarModel.cs" />
@@ -200,11 +202,13 @@
     <Compile Include="Models\CarListModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\MainModel.cs" />
+    <Compile Include="Models\ServiceModel.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Utility\AcceptCarClass.cs" />
     <Compile Include="Utility\CarClass.cs" />
     <Compile Include="Utility\DbManager.cs" />
     <Compile Include="Utility\DevClass.cs" />
+    <Compile Include="Utility\ServiceCarClass.cs" />
     <Compile Include="ViewModels\AcceptViewModel.cs" />
     <Compile Include="ViewModels\AddEditAcceptViewModel.cs" />
     <Compile Include="ViewModels\AddEditDevViewModel.cs" />
@@ -216,6 +220,7 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\Navigation.cs" />
+    <Compile Include="ViewModels\ServiceViewModel.cs" />
     <Compile Include="Views\AcceptView.xaml.cs">
       <DependentUpon>AcceptView.xaml</DependentUpon>
     </Compile>
@@ -244,9 +249,16 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\ServiceView.xaml.cs">
+      <DependentUpon>ServiceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\СarListView.xaml.cs">
       <DependentUpon>СarListView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Utility\Dictionary1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AcceptView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -278,6 +290,10 @@
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ServiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\СarListView.xaml">
       <SubType>Designer</SubType>
@@ -311,7 +327,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Utility\Default.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.6.0.2\build\net462\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.6.0.2\build\net462\Microsoft.Data.SqlClient.SNI.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

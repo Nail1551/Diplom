@@ -30,6 +30,7 @@ namespace Diplom.ViewModels
         public ICommand ShowCarsCommand { get; set; }
         public ICommand ShowDevCommand { get; set; }
         public ICommand ShowReturnCommand { get; set; }
+        public ICommand ShowServiceCommand { get; set; }
         #endregion
 
         public Navigation()
@@ -39,6 +40,8 @@ namespace Diplom.ViewModels
             ShowCarsCommand = new RelayCommand(Cars);
             ShowDevCommand = new RelayCommand(DevCar);
             ShowReturnCommand = new RelayCommand(AccCar);
+            ShowServiceCommand = new RelayCommand(ServiceCar);
+
         }
 
         private void Cars(object obj)
@@ -54,6 +57,10 @@ namespace Diplom.ViewModels
         {
             CurrentView = new AcceptViewModel(this);
 
+        }
+        private void ServiceCar(object obj)
+        {
+            CurrentView = new ServiceViewModel(this);
         }
     }
 }
