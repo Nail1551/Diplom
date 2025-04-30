@@ -1,26 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Runtime.Remoting.Lifetime;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Input;
+using Microsoft.Win32;
 using Diplom.Data;
 using Diplom.Models;
 using Diplom.Utility;
-using Microsoft.Win32;
 
 namespace Diplom.ViewModels
 {
-     class CarAddEditViewModel:BaseViewModel
+    class CarAddEditViewModel : BaseViewModel, IDataErrorInfo
     {
-        #region properties
-        private CarAddEditModel _caraddeditmodel;
-        
-        private Navigation _navigation;
-        
-        private CarClass _car;
+        private static readonly Regex _vinRegex =
+            new Regex("^[A-HJ-NPR-Z0-9]{17}$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        private static readonly Regex _plateRegex =
+            new Regex("^[АВЕКМНОРСТУХ]\\d{3}[АВЕКМНОРСТУХ]{2}\\d{2,3}$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        private readonly CarAddEditModel _model;
+        private readonly Navigation _nav;
+        private readonly CarClass _car;
+
+        private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
+
+        public ICommand CloseCommand { get; }
+        public ICommand ConfirmCommand { get; }
+        public ICommand SelectPhotoCommand { get; }
 
         private string _brand;
         public string Brand
@@ -32,132 +39,253 @@ namespace Diplom.ViewModels
                 {
                     _brand = value;
                     OnPropertyChanged();
+                    ValidateAll();
                 }
             }
         }
-        private string _model;
+
+        private string _modelName;
         public string Model
         {
-            get => _model;
+            get => _modelName;
             set
             {
-                if (_model != value)
+                if (_modelName != value)
                 {
-                    _model = value;
+                    _modelName = value;
                     OnPropertyChanged();
+                    ValidateAll();
                 }
             }
         }
 
         private string _vin;
-
         public string VIN
         {
-            get { return _vin; }
-            set { _vin = value; }
+            get => _vin;
+            set
+            {
+                var up = (value ?? "").ToUpper();
+                if (_vin != up)
+                {
+                    _vin = up;
+                    OnPropertyChanged();
+                    ValidateAll();
+                }
+            }
         }
 
-        private string _licenseplate;
-
+        private string _licensePlate;
         public string LicensePlate
         {
-            get { return _licenseplate; }
-            set { _licenseplate = value; }
+            get => _licensePlate;
+            set
+            {
+                var up = (value ?? "").ToUpper();
+                if (_licensePlate != up)
+                {
+                    _licensePlate = up;
+                    OnPropertyChanged();
+                    ValidateAll();
+                }
+            }
         }
 
-        private int _mileage;
-
-        public int Mileage
-        {
-            get { return _mileage; }
-            set { _mileage = value; }
-        }
-
-
-        private string _carstatus;
+        private string _carStatus;
         public string CarStatus
         {
-            get { return _carstatus; }
-            set { _carstatus = value; }
-
+            get => _carStatus;
+            set
+            {
+                if (_carStatus != value)
+                {
+                    _carStatus = value;
+                    OnPropertyChanged();
+                    ValidateAll();
+                }
+            }
         }
 
-        private string _photopath;
-
+        private string _photoPath;
         public string PhotoPath
         {
-            get { return _photopath; }
-            set { _photopath = value; }
+            get => _photoPath;
+            set
+            {
+                if (_photoPath != value)
+                {
+                    _photoPath = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         private List<string> _statuses;
-
         public List<string> Statuses
         {
-            get { return _statuses; }
-            set { _statuses = value; }
+            get => _statuses;
+            private set
+            {
+                _statuses = value;
+                OnPropertyChanged();
+            }
         }
-
-
-        public ICommand CloseCommand { get; set; }
-        public ICommand confirmCommand { get; set; }
-        public ICommand SelectPhotoCommand { get; set; }
-        #endregion
 
         public CarAddEditViewModel(Navigation navigation, CarClass car)
         {
-            _navigation = navigation;
-            _caraddeditmodel = new CarAddEditModel();
-            Statuses = _caraddeditmodel.FillStatus();
+            _nav = navigation;
+            _model = new CarAddEditModel();
+            _car = car;
 
-            _car = null;
-            if (car != null)
+            Statuses = _model.FillStatus();
+
+            if (_car != null)
             {
-                _car = car;
-                Brand = car.Brand;
-                Model = car.Model;
-                VIN = car.VIN;
-                LicensePlate = car.LicensePlate;
-                Mileage = car.Mileage;
-                CarStatus = car.CarStatus;
-                PhotoPath = car.PhotoPath; // !!! загружаем фото при редактировании
+                Brand = _car.Brand;
+                Model = _car.Model;
+                VIN = _car.VIN;
+                LicensePlate = _car.LicensePlate;
+                CarStatus = _car.CarStatus;
+                PhotoPath = _car.PhotoPath;
             }
 
-            CloseCommand = new RelayCommand(goBack);
-            confirmCommand = new RelayCommand(confirm);
-            SelectPhotoCommand = new RelayCommand(selectPhoto); // команда выбрать фото
+            CloseCommand = new RelayCommand(_ => GoBack());
+            ConfirmCommand = new RelayCommand(_ => Confirm());
+            SelectPhotoCommand = new RelayCommand(_ => SelectPhoto());
+
+            ValidateAll();
         }
 
-        private void goBack(object obj)
+        public string Error => null;
+
+        public string this[string columnName]
         {
-            _navigation.CurrentView = new CarListViewModel(_navigation);
+            get
+            {
+                string err = null;
+
+                string vin = (VIN ?? "").Trim();
+                string plate = (LicensePlate ?? "").Trim();
+                int? currentId = _car?.CarID;
+
+                switch (columnName)
+                {
+                    case nameof(Brand):
+                        if (string.IsNullOrWhiteSpace(Brand))
+                            err = "Марка не заполнена";
+                        break;
+
+                    case nameof(Model):
+                        if (string.IsNullOrWhiteSpace(Model))
+                            err = "Модель не заполнена";
+                        break;
+
+                    case nameof(VIN):
+                        if (string.IsNullOrWhiteSpace(vin))
+                            err = "VIN не заполнен";
+                        else if (!_vinRegex.IsMatch(vin))
+                            err = "VIN должен быть 17 символов (лат. буквы/цифры)";
+                        else if (_model.VinExists(vin, currentId))
+                            err = "Такой VIN уже существует";
+                        break;
+
+                    case nameof(LicensePlate):
+                        if (string.IsNullOrWhiteSpace(plate))
+                            err = "Госномер не заполнен";
+                        else if (!_plateRegex.IsMatch(plate))
+                            err = "Формат номера: А123ВС77";
+                        else if (_model.PlateExists(plate, currentId))
+                            err = "Такой госномер уже существует";
+                        break;
+
+                    case nameof(CarStatus):
+                        if (string.IsNullOrWhiteSpace(CarStatus))
+                            err = "Статус не выбран";
+                        break;
+                }
+
+                if (err == null)
+                    _errors.Remove(columnName);
+                else
+                    _errors[columnName] = err;
+
+                return err;
+            }
         }
 
-        // метод подтверждения 
-        private void confirm(object obj)
+        private void ValidateAll()
         {
+            _ = this[nameof(Brand)];
+            _ = this[nameof(Model)];
+            _ = this[nameof(VIN)];
+            _ = this[nameof(LicensePlate)];
+            _ = this[nameof(CarStatus)];
+        }
+
+        private void GoBack()
+        {
+            _nav.CurrentView = new CarListViewModel(_nav);
+        }
+
+        private void Confirm()
+        {
+            ValidateAll();
+
+            if (_errors.Count > 0)
+            {
+                var sb = new System.Text.StringBuilder("Пожалуйста, исправьте следующие ошибки:\n\n");
+                foreach (var msg in _errors.Values)
+                    sb.AppendLine(" • " + msg);
+
+                MessageBox.Show(
+                    sb.ToString(),
+                    "Ошибка ввода",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
+                return;
+            }
+
+            int defaultMileage = 0;
+            string path = string.IsNullOrWhiteSpace(PhotoPath) ? null : PhotoPath;
+
             if (_car == null)
             {
-                _caraddeditmodel.createCar(Brand, Model, VIN, LicensePlate, CarStatus, Mileage, PhotoPath); // передаем фотку
+                _model.createCar(
+                    Brand,
+                    Model,
+                    VIN,
+                    LicensePlate,
+                    CarStatus,
+                    defaultMileage,
+                    path
+                );
             }
             else
             {
-                _caraddeditmodel.editCar(_car.CarID, Brand, Model, VIN, LicensePlate, CarStatus, Mileage, PhotoPath); // передаем фотку
+                _model.editCar(
+                    _car.CarID,
+                    Brand,
+                    Model,
+                    VIN,
+                    LicensePlate,
+                    CarStatus,
+                    defaultMileage,
+                    path
+                );
             }
 
-            _navigation.CurrentView = new CarListViewModel(_navigation);
+            GoBack();
         }
 
-        // метод выбора фото
-        private void selectPhoto(object obj)
+        private void SelectPhoto()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Изображения (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg";
-
-            if (openFileDialog.ShowDialog() == true)
+            var dlg = new OpenFileDialog
             {
-                PhotoPath = openFileDialog.FileName;
-            }
+                Filter = "Изображения (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg"
+            };
+            if (dlg.ShowDialog() == true)
+                PhotoPath = dlg.FileName;
         }
     }
 }

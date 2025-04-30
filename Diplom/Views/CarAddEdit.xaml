@@ -1,144 +1,95 @@
 ﻿<UserControl x:Class="Diplom.Views.CarAddEdit"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Diplom.Views"
-             mc:Ignorable="d" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid Background="Transparent" Margin="0,-141,0,0">
-        <Border CornerRadius="10"
-                Background="#EEFFFFFF"
-                BorderBrush="#FF6600"
-                BorderThickness="2"
-                Padding="20"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Width="320"
-                MinHeight="580">
+        <Border Style="{StaticResource BorderStyle}"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom">
+            <StackPanel HorizontalAlignment="Center"
+                  VerticalAlignment="Top">
 
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0" >
-
-                <!-- Кнопка закрытия окна -->
+                <!-- Закрыть -->
                 <Button Content="✖"
-                        Width="30"
-                        Height="30"
-                        FontSize="16"
-                        FontWeight="Bold"
-                        Foreground="White"
-                        Background="Red"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        HorizontalAlignment="Right"
-                        Command="{Binding CloseCommand}"/>
+                Command="{Binding CloseCommand}"
+                Style="{StaticResource CloseButtonStyle}"/>
 
                 <!-- Заголовок -->
                 <TextBlock Text="Автомобиль"
-                           FontSize="20"
-                           FontWeight="Bold"
-                           Foreground="#333333"
-                           HorizontalAlignment="Center"/>
+                   Style="{StaticResource TextBlockStyle}"
+                   FontSize="20"/>
 
                 <!-- Марка -->
-                <TextBlock Text="Марка:" FontWeight="Bold" Foreground="#333333"/>
-                <TextBox Text="{Binding Brand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Height="26"
-                         Background="#FFF8F6F4"
-                         BorderBrush="#FF6600"
-                         Foreground="#333333"
-                         SelectionBrush="#FF6600"/>
+                <TextBlock Text="Марка:" Style="{StaticResource LabelTextBlockStyle}"/>
+                <TextBox
+          Text="{Binding Brand,
+                         Mode=TwoWay,
+                         UpdateSourceTrigger=PropertyChanged,
+                         ValidatesOnDataErrors=True}"
+          Style="{StaticResource InputTextBoxStyle}"/>
 
                 <!-- Модель -->
-                <TextBlock Text="Модель:" FontWeight="Bold" Foreground="#333333"/>
-                <TextBox Text="{Binding Model, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Height="26"
-                         Background="#FFF8F6F4"
-                         BorderBrush="#FF6600"
-                         Foreground="#333333"
-                         SelectionBrush="#FF6600"/>
+                <TextBlock Text="Модель:" Style="{StaticResource LabelTextBlockStyle}"/>
+                <TextBox
+          Text="{Binding Model,
+                         Mode=TwoWay,
+                         UpdateSourceTrigger=PropertyChanged,
+                         ValidatesOnDataErrors=True}"
+          Style="{StaticResource InputTextBoxStyle}"/>
 
                 <!-- VIN -->
-                <TextBlock Text="VIN:" FontWeight="Bold" Foreground="#333333"/>
-                <TextBox Text="{Binding VIN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Height="26"
-                         Background="#FFF8F6F4"
-                         BorderBrush="#FF6600"
-                         Foreground="#333333"
-                         SelectionBrush="#FF6600"/>
+                <TextBlock Text="VIN:" Style="{StaticResource LabelTextBlockStyle}"/>
+                <TextBox
+          Text="{Binding VIN,
+                         Mode=TwoWay,
+                         UpdateSourceTrigger=PropertyChanged,
+                         ValidatesOnDataErrors=True}"
+          Style="{StaticResource InputTextBoxStyle}"
+          ToolTip="17 символов, латинские буквы (кроме I,O,Q) и цифры"/>
 
-                <!-- Гос. номер -->
-                <TextBlock Text="Гос. номер:" FontWeight="Bold" Foreground="#333333"/>
-                <TextBox Text="{Binding LicensePlate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Height="26"
-                         Background="#FFF8F6F4"
-                         BorderBrush="#FF6600"
-                         Foreground="#333333"
-                         SelectionBrush="#FF6600"/>
+                <!-- Госномер -->
+                <TextBlock Text="Гос. номер:" Style="{StaticResource LabelTextBlockStyle}"/>
+                <TextBox
+          Text="{Binding LicensePlate,
+                         Mode=TwoWay,
+                         UpdateSourceTrigger=PropertyChanged,
+                         ValidatesOnDataErrors=True}"
+          Style="{StaticResource InputTextBoxStyle}"
+          ToolTip="Например: А123ВС77 (только русские буквы и цифры)"/>
 
                 <!-- Статус -->
-                <TextBlock Text="Статус:" FontWeight="Bold" Foreground="#333333"/>
-                <ComboBox ItemsSource="{Binding Statuses}"
-                          SelectedItem="{Binding CarStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          Height="26"
-                          Background="#FFF8F6F4"
-                          BorderBrush="#FF6600"
-                          Foreground="#333333"/>
+                <TextBlock Text="Статус:" Style="{StaticResource LabelTextBlockStyle}"/>
+                <ComboBox
+          ItemsSource="{Binding Statuses}"
+          SelectedItem="{Binding CarStatus,
+                                 Mode=TwoWay,
+                                 UpdateSourceTrigger=PropertyChanged,
+                                 ValidatesOnDataErrors=True}"
+          Style="{StaticResource ComboBoxStyle}"/>
 
-                <!-- Фотография -->
-                <TextBlock Text="Фотография:" FontWeight="Bold" Foreground="#333333" Margin="0,10,0,0"/>
-                <Border BorderBrush="#FF6600" BorderThickness="1" CornerRadius="5" Margin="0,5,0,5">
-                    <Image Source="{Binding PhotoPath}" 
-                           Width="200"
-                           Height="120"
-                           Stretch="Uniform"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"/>
+                <!-- Фото (опционально) -->
+                <TextBlock Text="Фотография:"
+                   Style="{StaticResource LabelTextBlockStyle}"
+                   Margin="0,10,0,0"/>
+                <Border Style="{StaticResource PhotoBorderStyle}">
+                    <Image Source="{Binding PhotoPath}"
+                 Width="200" Height="120"
+                 Stretch="Uniform"/>
                 </Border>
-
-                <!-- Кнопка выбрать фото -->
                 <Button Content="Выбрать фото"
-                        Width="150"
-                        Height="30"
-                        HorizontalAlignment="Center"
-                        Foreground="White"
-                        Background="#FF6600"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Command="{Binding SelectPhotoCommand}">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="#FF5500"/>
-                                </Trigger>
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Background" Value="#E64F00"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                Command="{Binding SelectPhotoCommand}"
+                Style="{StaticResource SaveButtonStyle}"/>
 
-                <!-- Кнопка сохранить -->
+                <!-- Сохранить -->
                 <Button Content="Сохранить"
-                        Width="150"
-                        Height="30"
-                        HorizontalAlignment="Center"
-                        Foreground="White"
-                        Background="#FF6600"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Command="{Binding confirmCommand}"
-                        Margin="0,10,0,0"/>
+                Command="{Binding ConfirmCommand}"
+                Style="{StaticResource SaveButtonStyle}"
+                Margin="0,10,0,0"/>
+
             </StackPanel>
         </Border>
     </Grid>

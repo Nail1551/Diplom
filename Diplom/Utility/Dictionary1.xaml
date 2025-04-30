@@ -1,51 +1,27 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Цвета -->
-    <Color x:Key="PrimaryColor">#FF6600</Color>
-    <!-- Оранжевый -->
-    <Color x:Key="BackgroundColor">#FF000000</Color>
-    <!-- Чёрный фон страницы -->
-    <Color x:Key="CardBackgroundColor">#FFF8F6F4</Color>
-    <!-- Светлый фон карточки и полей -->
-    <Color x:Key="TextColor">#FF333333</Color>
-    <!-- Тёмно-серый текст -->
-    <Color x:Key="WhiteColor">#FFFFFFFF</Color>
-    <!-- Белый -->
-
-    <!-- Кисти -->
-    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
-    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
-    <SolidColorBrush x:Key="CardBackgroundBrush" Color="{StaticResource CardBackgroundColor}"/>
-    <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}"/>
-    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource WhiteColor}"/>
-
-    <!-- Шрифт -->
-    <FontFamily x:Key="FontFamily">Segoe UI</FontFamily>
-
-    <!-- Стили -->
-
-    <!-- Кнопка -->
-    <Style x:Key="ButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
-        <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Height" Value="35"/>
-        <Setter Property="Width" Value="120"/>
-        <Setter Property="Margin" Value="5"/>
+    <!-- Стиль кнопки выбора фото (SaveButtonStyle) -->
+    <Style x:Key="SaveButtonStyle" TargetType="Button">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" CornerRadius="4">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="5">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="Width" Value="130"/>
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Background" Value="#FF6600"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor" Value="Hand"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="#FF5500"/>
@@ -56,61 +32,202 @@
         </Style.Triggers>
     </Style>
 
-    <!-- Текстовые поля -->
-    <Style x:Key="TextBoxStyle" TargetType="TextBox">
-        <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-        <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Height" Value="26"/>
-        <Setter Property="Padding" Value="5"/>
-        <Setter Property="SelectionBrush" Value="{StaticResource PrimaryBrush}"/>
-    </Style>
-
-    <!-- Выпадающие списки -->
-    <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
-        <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-        <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Height" Value="26"/>
-        <Setter Property="Padding" Value="5"/>
-    </Style>
-
-    <!-- Заголовки -->
-    <Style x:Key="LabelStyle" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-        <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Margin" Value="0,5,0,2"/>
-    </Style>
-
-    <!-- Общая таблица (если понадобится для DataGrid) -->
-    <Style x:Key="DataGridStyle" TargetType="DataGrid">
-        <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-        <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="RowBackground" Value="#FFF0F0F0"/>
-        <Setter Property="AlternatingRowBackground" Value="#FFE8E8E8"/>
-        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
-        <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-    </Style>
-
-    <!-- Заголовки таблиц -->
-    <Style x:Key="DataGridHeaderStyle" TargetType="DataGridColumnHeader">
-        <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
-        <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+    <!-- Стиль кнопки закрытия (CloseButtonStyle) -->
+    <Style x:Key="CloseButtonStyle" TargetType="Button">
+        <Setter Property="Width" Value="27"/>
+        <Setter Property="Height" Value="25"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="Height" Value="40"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="Red"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Margin" Value="0,-18,-15,0"/>
     </Style>
+
+    <!-- Стиль текстового поля (InputTextBoxStyle) -->
+    <Style x:Key="InputTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Width" Value="180"/>
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Margin" Value="0,10,0,0"/>
+        <Setter Property="Background" Value="#FFF8F6F4"/>
+        <Setter Property="BorderBrush" Value="#FF6600"/>
+        <Setter Property="Foreground" Value="#333333"/>
+        <Setter Property="SelectionBrush" Value="#FF6600"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="#FF5500"/>
+            </Trigger>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="BorderBrush" Value="Red"/>
+                <!-- ToolTip при ошибке убран -->
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Стиль заголовка в AddEditAcceptView (AddEditAcceptViewTitleStyle) -->
+    <Style x:Key="AddEditAcceptViewTitleStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="#333333"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,0,0,370"/>
+    </Style>
+
+    <!-- Стиль заголовка авторизации (AuthTitleStyle) -->
+    <Style x:Key="AuthTitleStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="#333333"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+
+    <!-- Общий стиль текстового заголовка (TextBlockStyle) -->
+    <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="#333333"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,0,0,10"/>
+    </Style>
+
+    <!-- Общий стиль метки (LabelTextBlockStyle) -->
+    <Style x:Key="LabelTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="#333333"/>
+    </Style>
+
+    <!-- Стиль контейнера (BorderStyle) -->
+    <Style x:Key="BorderStyle" TargetType="Border">
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Background" Value="#EEFFFFFF"/>
+        <Setter Property="BorderBrush" Value="#FF6600"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Padding" Value="20"/>
+    </Style>
+
+    <!-- Стиль рамки для фото (PhotoBorderStyle) -->
+    <Style x:Key="PhotoBorderStyle" TargetType="Border">
+        <Setter Property="BorderBrush" Value="#FF6600"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Margin" Value="0,5,0,5"/>
+    </Style>
+
+    <!-- Стиль ComboBox (ComboBoxStyle) -->
+    <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Background" Value="#FFF8F6F4"/>
+        <Setter Property="BorderBrush" Value="#FF6600"/>
+        <Setter Property="Foreground" Value="#333333"/>
+        <Setter Property="Margin" Value="0,0,0,10"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="#FF5500"/>
+            </Trigger>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="BorderBrush" Value="Red"/>
+                <!-- ToolTip при ошибке убран -->
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Стиль кнопок на главном окне (MainWindowButtonStyle) -->
+    <Style x:Key="MainWindowButtonStyle" TargetType="Button">
+        <Setter Property="Margin" Value="0,0,0,10"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="5">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FFE25127"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Стиль кнопки редактирования (EditButtonStyle) -->
+    <Style x:Key="EditButtonStyle" TargetType="Button">
+        <Setter Property="Width" Value="130"/>
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="BorderBrush" Value="#FF6600"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FFF0F0F0"/>
+                <Setter Property="BorderBrush" Value="#FF5500"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="#FFE0E0E0"/>
+                <Setter Property="BorderBrush" Value="#E64F00"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Стиль кнопки удаления (DelButtonStyle) -->
+    <Style x:Key="DelButtonStyle" TargetType="Button">
+        <Setter Property="Width" Value="130"/>
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="BorderBrush" Value="Red"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FFF0F0F0"/>
+                <Setter Property="BorderBrush" Value="Red"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="#FFE0E0E0"/>
+                <Setter Property="BorderBrush" Value="Red"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>

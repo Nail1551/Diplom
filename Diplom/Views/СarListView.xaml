@@ -42,16 +42,20 @@
         <ListView Grid.Row="1" Margin="20"
                   ItemsSource="{Binding FilteredCars}"
                   SelectedItem="{Binding CurrentCar, Mode=TwoWay}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel IsItemsHost="True" Orientation="Horizontal"/>
+                    <WrapPanel IsItemsHost="True"
+                               Orientation="Horizontal"
+                               Width="960"/>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Margin" Value="10"/>
+                    <Setter Property="Width" Value="300"/>
                     <Setter Property="HorizontalAlignment" Value="Left"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="VerticalContentAlignment" Value="Top"/>
@@ -62,13 +66,13 @@
                 <DataTemplate>
                     <Border Width="280" BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Padding="10" Background="White">
                         <StackPanel>
-                            <Image  Stretch="Uniform" MaxHeight="120" Margin="0,0,0,10">
-                                   <Image.Source>
-                                <Binding Path="PhotoPath">
-                                    <Binding.TargetNullValue>
-                                        <ImageSource>\Utility\Default.jpg</ImageSource>
-                                    </Binding.TargetNullValue>
-                                </Binding>
+                            <Image Stretch="Uniform" MaxHeight="120" Margin="0,0,0,10">
+                                <Image.Source>
+                                    <Binding Path="PhotoPath">
+                                        <Binding.TargetNullValue>
+                                            <ImageSource>\Utility\Default.jpg</ImageSource>
+                                        </Binding.TargetNullValue>
+                                    </Binding>
                                 </Image.Source>
                             </Image>
                             <TextBlock Text="{Binding LicensePlate}" FontWeight="Bold" FontSize="14"/>
@@ -83,9 +87,9 @@
 
         <!-- Кнопки управления -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="32,0,0,20">
-            <Button Content="Добавить" Width="80" Margin="0,0,10,0" Command="{Binding addCommand}"/>
-            <Button Content="Изменить" Width="80" Margin="0,0,10,0" Command="{Binding editCommand}"/>
-            <Button Content="Удалить" Width="80" Command="{Binding deleteCommand}"/>
+            <Button Content="Добавить" Style="{StaticResource SaveButtonStyle}" Width="80" Margin="0,0,10,0" Command="{Binding addCommand}"/>
+            <Button Content="Изменить" Style="{DynamicResource EditButtonStyle}" Width="80" Margin="0,0,10,0" Command="{Binding editCommand}"/>
+            <Button Content="Удалить" Style="{DynamicResource DelButtonStyle}" Width="80" Command="{Binding deleteCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

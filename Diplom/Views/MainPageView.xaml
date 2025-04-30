@@ -29,40 +29,31 @@
                 <StackPanel VerticalAlignment="Top" Margin="10,62,10,0">
 
                     <Button Content="Автомобили"
-                         Margin="0,0,0,10"
-                         Height="40"
-                         Background="White"
-                         Foreground="Black"
-                         FontWeight="Bold"
-                         Command="{Binding ShowCarsCommand}" />
+                            Margin="0,0,0,10"
+                            Style="{StaticResource MainWindowButtonStyle}"
+                            Command="{Binding ShowCarsCommand}" />
 
                     <Button Content="Выдача авто"
-                         Margin="0,0,0,10"
-                         Height="40"
-                         Background="White"
-                         Foreground="Black"
-                         FontWeight="Bold"
-                         Command="{Binding ShowDevCommand}" />
+                            Margin="0,0,0,10"
+                            Style="{StaticResource MainWindowButtonStyle}"
+                            Command="{Binding ShowDevCommand}" />
 
                     <Button Content="Прием авто"
-                         Margin="0,0,0,10"
-                         Height="40"
-                         Background="White"
-                         Foreground="Black"
-                         FontWeight="Bold"
-                         Command="{Binding ShowReturnCommand}" />
+                            Margin="0,0,0,10"
+                            Command="{Binding ShowReturnCommand}"
+                            Style="{StaticResource MainWindowButtonStyle}"/>
                     <Button Content="ТО"
-        Command="{Binding ShowServiceCommand}"
-        Style="{StaticResource ButtonStyle}"
-        Margin="0,10,0,0"/>
+                            Command="{Binding ShowServiceCommand}"
+                            Style="{StaticResource MainWindowButtonStyle}"
+                            Margin="0,0,0,10"/>
 
                 </StackPanel>
             </Border>
 
             <!-- Контент -->
             <ContentControl Grid.Column="1"
-                         Grid.Row="1"
-                         Content="{Binding CurrentView}"/>
+                            Grid.Row="1"
+                            Content="{Binding CurrentView}"/>
         </Grid>
     </Border>
 </Page>

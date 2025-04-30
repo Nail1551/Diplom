@@ -29,31 +29,22 @@
 
                     <Button Content="Автомобили"
                             Margin="0,0,0,10"
-                            Height="40"
-                            Background="White"
-                            Foreground="Black"
-                            FontWeight="Bold"
+                            Style="{StaticResource MainWindowButtonStyle}"
                             Command="{Binding ShowCarsCommand}" />
 
                     <Button Content="Выдача авто"
                             Margin="0,0,0,10"
-                            Height="40"
-                            Background="White"
-                            Foreground="Black"
-                            FontWeight="Bold"
+                            Style="{StaticResource MainWindowButtonStyle}"
                             Command="{Binding ShowDevCommand}" />
 
                     <Button Content="Прием авто"
                             Margin="0,0,0,10"
-                            Height="40"
-                            Background="White"
-                            Foreground="Black"
-                            FontWeight="Bold"
-                            Command="{Binding ShowReturnCommand}" />
+                            Command="{Binding ShowReturnCommand}"
+                            Style="{StaticResource MainWindowButtonStyle}"/>
                     <Button Content="ТО"
-        Command="{Binding ShowServiceCommand}"
-        Style="{StaticResource ButtonStyle}"
-        Margin="0,10,0,0"/>
+                            Command="{Binding ShowServiceCommand}"
+                            Style="{StaticResource MainWindowButtonStyle}"
+                            Margin="0,0,0,10"/>
 
                 </StackPanel>
             </Border>

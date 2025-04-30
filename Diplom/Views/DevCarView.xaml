@@ -36,27 +36,16 @@
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     Margin="0,10,0,20"
-                    Grid.Row="1"
-                    >
+                    Grid.Row="1">
+
             <Button Content="Добавить"
                     Command="{Binding addCommand}"
                     Width="130" Height="35"
-                    Background="#FF6600"
-                    Foreground="White"
-                    FontWeight="Bold"
-                    BorderBrush="Black"
-                    BorderThickness="1"
-                    Cursor="Hand"/>
+                    Style="{StaticResource SaveButtonStyle}"/>
 
             <Button Content="Изменить"
                     Command="{Binding editCommand}"
-                    Width="130" Height="35"
-                    Background="White"
-                    Foreground="Black"
-                    FontWeight="Bold"
-                    BorderBrush="#FF6600"
-                    BorderThickness="2"
-                    Cursor="Hand"/>
+                    Style="{DynamicResource EditButtonStyle}"/>
         </StackPanel>
     </Grid>
 </UserControl>
