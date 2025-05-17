@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Diplom.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="830" Width="1500">
+        Title="Atoman" Height="830" Width="1500">
     <Border Background="#272B2F" CornerRadius="10">
         <Grid>
             <Grid.RowDefinitions>

@@ -97,7 +97,7 @@ namespace Diplom.ViewModels
         private void clearFilters(object obj)
         {
             SearchText = string.Empty;
-            CurrentStatus = null; // ← ComboBox сбрасывается в пустое
+            CurrentStatus = null; 
         }
 
         private void addCar(object obj)

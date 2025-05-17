@@ -260,6 +260,7 @@ namespace Diplom.ViewModels
                     defaultMileage,
                     path
                 );
+                MessageBox.Show("Успешно сохранено");
             }
             else
             {
@@ -273,6 +274,7 @@ namespace Diplom.ViewModels
                     defaultMileage,
                     path
                 );
+                MessageBox.Show("Изменение сохранено");
             }
 
             GoBack();

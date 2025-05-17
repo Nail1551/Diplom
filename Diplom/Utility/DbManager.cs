@@ -119,7 +119,7 @@ namespace Diplom.Utility
                     CarID = carId,
                     ToEmployeeID = toEmployeeId,
                     Condition = condition,
-                    Odometr = currentMileage,         // сохраняем пробег только при создании
+                    Odometr = currentMileage,        
                     TransferDate = transferDate
                 };
 
@@ -127,7 +127,7 @@ namespace Diplom.Utility
 
                 if (car != null)
                 {
-                    car.CarStatusID = 2; // "Занят"
+                    car.CarStatusID = 2; 
                 }
 
                 context.SaveChanges();
@@ -400,15 +400,43 @@ namespace Diplom.Utility
 
             }
         }
-        public static void deleteCarById(int id)
+        public static void DeleteCarById(int id)
         {
             using (var context = new ApplicationContext())
             {
-                var car = context.Cars.Where(ch => ch.CarID == id).First();
-                context.Cars.Remove(car);
+                // Получаем все DevCar по CarID
+                var devCars = context.DevCar.Where(d => d.CarID == id).ToList();
+
+                // Получаем список DevID
+                var devIds = devCars.Select(d => d.DevID).ToList();
+
+                // Удаляем все AcceptCar, которые ссылаются на эти DevID
+                var acceptCars = context.AcceptCar.Where(a => devIds.Contains(a.DevID)).ToList();
+                context.AcceptCar.RemoveRange(acceptCars);
+
+                // Удаляем все DevCar
+                context.DevCar.RemoveRange(devCars);
+
+                // Удаляем все Repair, связанные с автомобилем
+                var repairs = context.Repair.Where(r => r.CarID == id).ToList();
+                context.Repair.RemoveRange(repairs);
+
+                // Сохраняем удаление связанных записей
                 context.SaveChanges();
+
+                // Теперь удаляем сам автомобиль
+                var car = context.Cars.FirstOrDefault(c => c.CarID == id);
+                if (car != null)
+                {
+                    context.Cars.Remove(car);
+                    context.SaveChanges();
+                }
             }
         }
+
+
+
+
         public static string GetReasonNameById(int reasonId)
         {
             using (var context = new ApplicationContext())

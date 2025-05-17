@@ -45,12 +45,13 @@ namespace Diplom.ViewModels
             bool auth = _loginModel.CheckLogin(Login, Password);
             if (auth == true)
             {
+                MessageBox.Show("Вы успешно вошли");
                 _navigation.CurrentView = new CarListViewModel(_navigation);
                 
             }
             else
             {
-                MessageBox.Show("DealTime auth", "Не верный логин или пароль!");
+                MessageBox.Show("Поля  заполнены неверно");
             }
 
         }

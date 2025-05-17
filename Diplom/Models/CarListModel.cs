@@ -46,7 +46,7 @@ namespace Diplom.Models
         }
         public void deleteCar(CarClass car)
         {
-            DbManager.deleteCarById(car.CarID);
+            DbManager.DeleteCarById(car.CarID);
         }
     }
 }
