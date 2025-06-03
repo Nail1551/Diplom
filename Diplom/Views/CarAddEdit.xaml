@@ -9,7 +9,7 @@
     <Grid Background="Transparent" Margin="0,-141,0,0">
         <Border Style="{StaticResource BorderStyle}"
             HorizontalAlignment="Center"
-            VerticalAlignment="Bottom">
+            VerticalAlignment="Center">
             <StackPanel HorizontalAlignment="Center"
                   VerticalAlignment="Top">
 
